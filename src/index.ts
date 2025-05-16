@@ -1,7 +1,16 @@
 import express from "express";
 import { readCsvFile, Customer } from "./readCsv";
+import cors from "cors";
 
 const app = express();
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173/My_app/",
+      "https://khanhlinh1409.github.io/My_app/",
+    ],
+  })
+);
 const PORT = 10000;
 
 // Middleware to parse JSON
