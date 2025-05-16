@@ -4,7 +4,7 @@ import csv from "csv-parser";
 import { parse } from "fast-csv";
 
 export interface Customer {
-  id: string;
+  ID: string;
   firstName: string;
   lastName: string;
   address: string;

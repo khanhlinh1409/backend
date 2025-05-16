@@ -1,4 +1,4 @@
-ID,First Name,Last Name,Address,Phone Number,Marriage Status,Number of Children
+ID,firstName,lastName,address,phoneNo,maritalStatus,noOfChildren
 1,Samantha,Carrillo,"76805 Bonnie Flats Suite 334, Jaimeborough, OR 97830",584-989-4434x62545,Single,0
 2,Cassandra,Golden,"55523 Elizabeth Ville Suite 821, Port Debbiemouth, VA 42338",607.658.4404x539,Single,0
 3,Philip,Nguyen,"31419 Angela Path, Jessicamouth, PA 64409",001-380-716-3721x5183,Divorced,4

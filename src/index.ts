@@ -66,6 +66,7 @@ app.get("/", async (req, res) => {
       singlecustomers,
       singleCount: singlecustomers.length,
     });
+    //res.status(200).json({ customers });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
