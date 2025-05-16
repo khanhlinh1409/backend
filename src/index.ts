@@ -5,10 +5,7 @@ import cors from "cors";
 const app = express();
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173/My_app/",
-      "https://khanhlinh1409.github.io/My_app/",
-    ],
+    origin: ["http://localhost:5173", "https://khanhlinh1409.github.io"],
   })
 );
 const PORT = 10000;
