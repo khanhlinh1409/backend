@@ -1,4 +1,5 @@
-import express from 'express';
+import express from "express";
+import { readCsvFile, User } from "./readCsv";
 
 const app = express();
 const PORT = 10000;
@@ -7,14 +8,19 @@ const PORT = 10000;
 app.use(express.json());
 
 // Route example
-app.get('/', (req, res) => {
-  res.send('Hello from Express + TypeScript!');
+app.get("/", async (req, res) => {
+  try {
+    const users: User[] = await readCsvFile();
+    res.json(users);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
-app.post('/api/data', (req, res) => {
+app.post("/api/data", (req, res) => {
   const data = req.body;
-  console.log('Received:', data);
-  res.json({ message: 'Data received!', data });
+  console.log("Received:", data);
+  res.json({ message: "Data received!", data });
 });
 
 app.listen(PORT, () => {
