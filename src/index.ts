@@ -1,5 +1,5 @@
 import express from "express";
-import { readCsvFile, User } from "./readCsv";
+import { readCsvFile, Customer } from "./readCsv";
 
 const app = express();
 const PORT = 10000;
@@ -8,10 +8,64 @@ const PORT = 10000;
 app.use(express.json());
 
 // Route example
+app.get("/customer/search", async (req, res) => {
+  try {
+    const { firstName, lastName, maritalStatus, noOfChildren } = req.query;
+
+    let customers: Customer[] = await readCsvFile();
+
+    // Lọc theo name
+    if (firstName) {
+      customers = customers.filter((customer) =>
+        customer.firstName
+          .toLowerCase()
+          .includes((firstName as string).toLowerCase())
+      );
+    }
+    if (lastName) {
+      customers = customers.filter((customer) =>
+        customer.lastName
+          .toLowerCase()
+          .includes((lastName as string).toLowerCase())
+      );
+    }
+    if (maritalStatus) {
+      customers = customers.filter((customer) =>
+        customer.maritalStatus
+          .toLowerCase()
+          .includes((maritalStatus as string).toLowerCase())
+      );
+    }
+
+    if (noOfChildren) {
+      customers = customers.filter((customer) =>
+        customer.noOfChildren
+          .toLowerCase()
+          .includes((noOfChildren as string).toLowerCase())
+      );
+    }
+
+    res.json({ total: customers.length, customers });
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.get("/", async (req, res) => {
   try {
-    const users: User[] = await readCsvFile();
-    res.json(users);
+    const customers: Customer[] = await readCsvFile();
+    const marriedcustomers = customers.filter(
+      (customer) => customer.maritalStatus === "Married"
+    );
+    const singlecustomers = customers.filter(
+      (customer) => customer.maritalStatus === "Single"
+    );
+    res.json({
+      marriedcustomers,
+      marriedCount: marriedcustomers.length,
+      singlecustomers,
+      singleCount: singlecustomers.length,
+    });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }

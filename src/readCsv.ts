@@ -3,7 +3,7 @@ import path from "path";
 import csv from "csv-parser";
 import { parse } from "fast-csv";
 
-export interface User {
+export interface Customer {
   id: string;
   firstName: string;
   lastName: string;
@@ -13,9 +13,9 @@ export interface User {
   noOfChildren: string;
 }
 
-export const readCsvFile = (): Promise<User[]> => {
+export const readCsvFile = (): Promise<Customer[]> => {
   return new Promise((resolve, reject) => {
-    const results: User[] = [];
+    const results: Customer[] = [];
     const filePath = path.join(__dirname, "../customer_data.csv");
 
     fs.createReadStream(filePath)
