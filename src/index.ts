@@ -20,7 +20,7 @@ app.get("/customer/search", async (req, res) => {
 
     let customers: Customer[] = await readCsvFile();
 
-    // Lọc theo name
+    // filters
     if (firstName) {
       customers = customers.filter((customer) =>
         customer.firstName
@@ -51,7 +51,7 @@ app.get("/customer/search", async (req, res) => {
       );
     }
 
-    res.json({ total: customers.length, customers });
+    res.json({ count: customers.length, results: customers });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
@@ -66,13 +66,15 @@ app.get("/", async (req, res) => {
     const singlecustomers = customers.filter(
       (customer) => customer.maritalStatus === "Single"
     );
+
     res.json({
-      marriedcustomers,
-      marriedCount: marriedcustomers.length,
-      singlecustomers,
-      singleCount: singlecustomers.length,
+      count: customers.length,
+      results: customers,
+      marriedcount: marriedcustomers.length,
+      marriedresults: marriedcustomers,
+      singlecount: singlecustomers.length,
+      singleresults: singlecustomers,
     });
-    //res.status(200).json({ customers });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
