@@ -1,6 +1,10 @@
 import express from "express";
 import { readCsvFile, Customer } from "./readCsv";
 import cors from "cors";
+import authRoutes from "./routes/auth.routes";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 app.use(
@@ -11,7 +15,11 @@ app.use(
 const PORT = 10000;
 
 // Middleware to parse JSON
-app.use(express.json());
+
+console.log("Supabase URL:", process.env.SUPABASE_URL);
+console.log("Supabase Key:", process.env.SUPABASE_ANON_KEY);
+
+//app.use("/api/auth", authRoutes);
 
 // Route example
 app.get("/customer/search", async (req, res) => {
@@ -21,20 +29,18 @@ app.get("/customer/search", async (req, res) => {
     let customers: Customer[] = await readCsvFile();
 
     // filters
-    if (firstName) {
-      customers = customers.filter((customer) =>
-        customer.firstName
-          .toLowerCase()
-          .includes((firstName as string).toLowerCase())
-      );
+    if (firstName || lastName) {
+      const fname = (firstName as string)?.toLowerCase() || "";
+      const lname = (lastName as string)?.toLowerCase() || "";
+
+      customers = customers.filter((customer) => {
+        return (
+          customer.firstName.toLowerCase().includes(fname) ||
+          customer.lastName.toLowerCase().includes(lname)
+        );
+      });
     }
-    if (lastName) {
-      customers = customers.filter((customer) =>
-        customer.lastName
-          .toLowerCase()
-          .includes((lastName as string).toLowerCase())
-      );
-    }
+
     if (maritalStatus) {
       customers = customers.filter((customer) =>
         customer.maritalStatus
