@@ -15,12 +15,12 @@ app.use(
 const PORT = 10000;
 
 // Middleware to parse JSON
+app.use(express.json());
 
-console.log("Supabase URL:", process.env.SUPABASE_URL);
-console.log("Supabase Key:", process.env.SUPABASE_ANON_KEY);
+//console.log("Supabase URL:", process.env.SUPABASE_URL);
+//console.log("Supabase Key:", process.env.SUPABASE_ANON_KEY);
 
-//app.use("/api/auth", authRoutes);
-
+app.use("/auth", authRoutes);
 // Route example
 app.get("/customer/search", async (req, res) => {
   try {

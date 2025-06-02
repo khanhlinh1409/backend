@@ -1,18 +1,22 @@
 import { Request, Response } from "express";
-import * as authService from "../services/auth.service";
+import * as AuthService from "../services/auth.service";
 
-export const signUp = async (req: Request, res: Response) => {
+export const signUp = async (req: Request, res: Response): Promise<void> => {
   const { email, password } = req.body;
-  const result = await authService.signUp(email, password);
-  if (result.error)
-    return res.status(400).json({ error: result.error.message });
-  res.status(201).json(result.data);
+  const { data, error } = await AuthService.signUp(email, password);
+  if (error) {
+    res.status(400).json({ error: error.message });
+    return;
+  }
+  res.status(200).json(data);
 };
 
-export const login = async (req: Request, res: Response) => {
+export const login = async (req: Request, res: Response): Promise<void> => {
   const { email, password } = req.body;
-  const result = await authService.login(email, password);
-  if (result.error)
-    return res.status(400).json({ error: result.error.message });
-  res.status(200).json(result.data);
+  const { data, error } = await AuthService.login(email, password);
+  if (error) {
+    res.status(401).json({ error: error.message });
+    return;
+  }
+  res.status(200).json(data);
 };
